@@ -36,16 +36,12 @@ public class Recensement {
         DepartementDaoJdbc depDao = null;
         RegionDaoJdbc regionDao = null;
         VilleDaoJdbc villeDao = null;
-    	Connection connection;
+    	Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(url, user, password);
 	        depDao = new DepartementDaoJdbc(connection);
 	        regionDao = new RegionDaoJdbc(connection);
 	        villeDao = new VilleDaoJdbc(connection);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 		    List<String> lines = Files.readAllLines(cheminFichier, StandardCharsets.UTF_8);
 		    Iterator<String> iterator = lines.iterator();
 		    iterator.next();
@@ -80,7 +76,7 @@ public class Recensement {
 		            villeDao.insert(targetCity);
 		        }
 		    }
-		} catch (IOException e) {
+		} catch (IOException | SQLException e) {
 		    e.printStackTrace();
 		}
         long endTime = System.currentTimeMillis();
